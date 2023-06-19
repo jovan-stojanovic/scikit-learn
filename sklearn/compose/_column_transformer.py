@@ -427,8 +427,9 @@ class ColumnTransformer(TransformerMixin, _BaseComposition):
                 if columns_is_scalar:
                     # selection is done with one dimension
                     columns = columns[0]
-            print(self._columns)
             if effective_n_jobs(self.n_jobs) != 1 and trans.__class__ in univariate_transformers:
+                if isinstance(columns, slice):
+                    columns = list(range(columns.stop)[columns])
                 for column in columns:
                     yield (name, trans, (column, ), get_weight(name))
             else:
