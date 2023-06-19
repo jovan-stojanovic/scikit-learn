@@ -552,7 +552,7 @@ class MinMaxScaler(OneToOneFeatureMixin, TransformerMixin, BaseEstimator):
         return X
 
     def _more_tags(self):
-        return {"allow_nan": True}
+        return {"allow_nan": True, "univariate": True}
 
 
 @validate_params(
@@ -1069,7 +1069,8 @@ class StandardScaler(OneToOneFeatureMixin, TransformerMixin, BaseEstimator):
         return X
 
     def _more_tags(self):
-        return {"allow_nan": True, "preserves_dtype": [np.float64, np.float32]}
+        return {"allow_nan": True, "preserves_dtype": [np.float64, np.float32],
+                "univariate": True}
 
 
 class MaxAbsScaler(OneToOneFeatureMixin, TransformerMixin, BaseEstimator):
@@ -2014,7 +2015,7 @@ class Normalizer(OneToOneFeatureMixin, TransformerMixin, BaseEstimator):
         return normalize(X, norm=self.norm, axis=1, copy=copy)
 
     def _more_tags(self):
-        return {"stateless": True}
+        return {"stateless": True, "univariate": True}
 
 
 @validate_params(

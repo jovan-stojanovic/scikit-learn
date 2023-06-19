@@ -20,6 +20,7 @@ _DEFAULT_TAGS = {
     "preserves_dtype": [np.float64],
     "requires_y": False,
     "pairwise": False,
+    "univariate": False,
 }
 
 

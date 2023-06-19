@@ -29,6 +29,11 @@ from ..utils.validation import check_array, check_is_fitted, _check_feature_name
 from ..utils.validation import _num_samples
 from ..utils.parallel import delayed, Parallel
 
+from ..utils.discovery import all_estimators
+from ..utils._tags import _safe_tags
+from ..utils.estimator_checks import _construct_instance
+
+from joblib import effective_n_jobs
 
 __all__ = ["ColumnTransformer", "make_column_transformer", "make_column_selector"]
 
@@ -38,6 +43,17 @@ _ERR_MSG_1DCOLUMN = (
     "Try to specify the column selection as a list of one "
     "item instead of a scalar."
 )
+
+
+def get_univariate_transformers():
+    univariate_transformers = []
+    skip_list = ['ColumnTransformer', 'FeatureUnion', 'SparseCoder']
+    for name, Transformer in all_estimators(type_filter='transformer'):
+        if name not in skip_list:
+            transformer = _construct_instance(Transformer)
+            if _safe_tags(transformer, key='univariate'):
+                univariate_transformers.append(Transformer)
+    return univariate_transformers
 
 
 class ColumnTransformer(TransformerMixin, _BaseComposition):
@@ -385,6 +401,7 @@ class ColumnTransformer(TransformerMixin, _BaseComposition):
         get_weight = (self.transformer_weights or {}).get
 
         output_config = _get_output_config("transform", self)
+        univariate_transformers = get_univariate_transformers()
         for name, trans, columns in transformers:
             if replace_strings:
                 # replace 'passthrough' with identity transformer and
@@ -410,8 +427,12 @@ class ColumnTransformer(TransformerMixin, _BaseComposition):
                 if columns_is_scalar:
                     # selection is done with one dimension
                     columns = columns[0]
-
-            yield (name, trans, columns, get_weight(name))
+            print(self._columns)
+            if effective_n_jobs(self.n_jobs) != 1 and trans.__class__ in univariate_transformers:
+                for column in columns:
+                    yield (name, trans, (column, ), get_weight(name))
+            else:
+                yield (name, trans, columns, get_weight(name))
 
     def _validate_transformers(self):
         if not self.transformers:
