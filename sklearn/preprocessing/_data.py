@@ -1288,7 +1288,7 @@ class MaxAbsScaler(OneToOneFeatureMixin, TransformerMixin, BaseEstimator):
         return X
 
     def _more_tags(self):
-        return {"allow_nan": True}
+        return {"allow_nan": True, "univariate": True}
 
 
 @validate_params(
@@ -1646,7 +1646,7 @@ class RobustScaler(OneToOneFeatureMixin, TransformerMixin, BaseEstimator):
         return X
 
     def _more_tags(self):
-        return {"allow_nan": True}
+        return {"allow_nan": True, "univariate": True}
 
 
 @validate_params(
@@ -2846,7 +2846,7 @@ class QuantileTransformer(OneToOneFeatureMixin, TransformerMixin, BaseEstimator)
         return self._transform(X, inverse=True)
 
     def _more_tags(self):
-        return {"allow_nan": True}
+        return {"allow_nan": True, "univariate": True}
 
 
 @validate_params(
@@ -3408,7 +3408,7 @@ class PowerTransformer(OneToOneFeatureMixin, TransformerMixin, BaseEstimator):
         return X
 
     def _more_tags(self):
-        return {"allow_nan": True}
+        return {"allow_nan": True, "univariate": True}
 
 
 @validate_params({"X": ["array-like"]})

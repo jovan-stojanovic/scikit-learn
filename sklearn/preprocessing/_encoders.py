@@ -1,4 +1,4 @@
-# Authors: Andreas Mueller <amueller@ais.uni-bonn.de>
+    # Authors: Andreas Mueller <amueller@ais.uni-bonn.de>
 #          Joris Van den Bossche <jorisvandenbossche@gmail.com>
 # License: BSD 3 clause
 
@@ -442,7 +442,7 @@ class _BaseEncoder(TransformerMixin, BaseEstimator):
             X_int[rows_to_update, i] = np.take(mapping, X_int[rows_to_update, i])
 
     def _more_tags(self):
-        return {"X_types": ["categorical"]}
+        return {"X_types": ["categorical"], "univariate": True}
 
 
 class OneHotEncoder(_BaseEncoder):

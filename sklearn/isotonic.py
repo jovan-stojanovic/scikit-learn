@@ -462,4 +462,4 @@ class IsotonicRegression(RegressorMixin, TransformerMixin, BaseEstimator):
             self._build_f(self.X_thresholds_, self.y_thresholds_)
 
     def _more_tags(self):
-        return {"X_types": ["1darray"]}
+        return {"X_types": ["1darray"], "univariate": True}

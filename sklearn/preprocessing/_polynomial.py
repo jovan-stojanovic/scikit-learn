@@ -1165,5 +1165,6 @@ class SplineTransformer(TransformerMixin, BaseEstimator):
                     "Current Scipy implementation of _bsplines does not"
                     "support const memory views."
                 ),
+                "univariate": True
             }
         }

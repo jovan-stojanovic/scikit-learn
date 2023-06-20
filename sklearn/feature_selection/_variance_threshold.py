@@ -133,4 +133,4 @@ class VarianceThreshold(SelectorMixin, BaseEstimator):
         return self.variances_ > self.threshold
 
     def _more_tags(self):
-        return {"allow_nan": True}
+        return {"allow_nan": True, "univariate": True}
